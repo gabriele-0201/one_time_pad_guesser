@@ -15,6 +15,10 @@ fn main() {
         .map(|s| hex::decode(s).expect("Impossibel to decode"))
         .collect();
 
+    let mix = xor(&lines[0], &lines[1]);
+    let res = xor(&"Bitcoin".as_bytes().to_vec(), &mix);
+    println!("{:?}", String::from_utf8(res).unwrap());
+
     let guess_key_and_decode = |input: &Vec<Vec<u8>>,
                                 possible_output: Vec<u8>,
                                 index_possible_out: u8|
@@ -88,9 +92,6 @@ fn xor(key: &Vec<u8>, value: &Vec<u8>) -> Vec<u8> {
     output
 }
 
-// key ^ (cyper1 ^ cyper2) = key
-//
-// input1 ^ cyper2 = key
-//
-// input1 ^ key = cyper1
-// input1 = cyper1 ^ key
+// input1/2 ^ (cyper1 ^ cyper2) = input2
+// input1 ^ (key ^ input1 ^ key ^ input2) = input2
+// input2 = input2
